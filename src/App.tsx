@@ -1,35 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
+import Slot from './components/Slot';
+import PlayButton from './components/PlayButton';
+import ResetButton from './components/ResetButton';
+import WinChecker from './components/WinChecker';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [symbols, setSymbols] = useState(['', '', '']);
+  const [bet, setBet] = useState(1);
+
+  const playGame = () => {
+    const newSymbols = [Math.floor(Math.random() * 3), Math.floor(Math.random() * 3), Math.floor(Math.random() * 3)];
+    const stringSymbols = newSymbols.map(el => String(el));
+    setSymbols(stringSymbols);
+  };
+
+  const resetGame = () => {
+    setSymbols(['', '', '']);
+  };
+
+  const handleBetChange = e => {
+    setBet(e.target.value);
+  };
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="app">
+      <h1 className="title">Slot Machine</h1>
+      <div className="slots-container">
+        <Slot symbol={symbols[0]} />
+        <Slot symbol={symbols[1]} />
+        <Slot symbol={symbols[2]} />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+      <div className="bet-container">
+        <label>Bet:</label>
+        <input type="number" value={bet} onChange={handleBetChange} />
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <div className="button-container">
+        <PlayButton playGame={playGame} />
+        <ResetButton resetGame={resetGame} />
+      </div>
+      <WinChecker symbols={symbols} />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
