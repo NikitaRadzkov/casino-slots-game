@@ -19,8 +19,8 @@ function App() {
     setSymbols(['', '', '']);
   };
 
-  const handleBetChange = e => {
-    setBet(e.target.value);
+  const handleBetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setBet(Number(e.target.value));
   };
 
   return (
